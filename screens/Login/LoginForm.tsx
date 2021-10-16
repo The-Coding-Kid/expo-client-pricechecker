@@ -12,12 +12,23 @@ var axios = require("axios");
 import * as yup from "yup";
 import LoginButton from "./LoginButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AppLoading from "expo-app-loading";
+import {
+  useFonts,
+  Oswald_300Light,
+  Oswald_400Regular,
+  Oswald_500Medium,
+  Oswald_600SemiBold,
+  Oswald_700Bold,
+} from "@expo-google-fonts/oswald";
 
+// Login Schema Yup(Formik)
 const LoginSchema = yup.object({
   username: yup.string().required(),
   password: yup.string().required(),
 });
 
+//AsyncStorage Functions
 const storeData = async (key: string, value: string) => {
   try {
     await AsyncStorage.setItem(key, value);
@@ -37,7 +48,21 @@ const getData = async (key: string) => {
   }
 };
 
+//--------------------------
+//--------------------------
+//--------------------------
+//Login Form
 const LoginForm: React.FC<any> = ({ navigation }) => {
+  //Fonts
+  let [fontsLoaded] = useFonts({
+    Oswald_300Light,
+    Oswald_400Regular,
+    Oswald_500Medium,
+    Oswald_600SemiBold,
+    Oswald_700Bold,
+  });
+
+  //Hooks, State, Events
   const [error, setError] = useState<Number>();
 
   useEffect(() => {
@@ -45,7 +70,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
     const userData = getData("userData");
     //@ts-ignore
     if (token) {
-      navigation.navigate("Home");
+      navigation.navigate("Main");
     } else {
       navigation.navigate("Login");
     }
@@ -60,7 +85,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
       .then(async (response: any) => {
         await storeData("token", response.data.token);
         await storeData("userData", JSON.stringify(response.data.result));
-        navigation.navigate("Home");
+        navigation.navigate("Main");
       })
       .catch((err: any) => {
         setError(err.response.status);
@@ -71,150 +96,156 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
     navigation.navigate("Register");
   };
 
-  if (error === 400) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loginErrorText}>Invalid username or password</Text>
-        <Formik
-          initialValues={{ email: "", username: "", password: "" }}
-          validationSchema={LoginSchema}
-          onSubmit={(values, actions) => {
-            actions.resetForm({});
-            handleSubmit(values);
-          }}
-        >
-          {(props) => (
-            <View>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Username"
-                onChangeText={props.handleChange("username")}
-                // @ts-ignore
-                value={props.touched.username && props.values.username}
-                onBlur={props.handleBlur("username")}
-              />
-              <Text style={styles.errorText}>{props.errors.username}</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Password"
-                onChangeText={props.handleChange("password")}
-                value={props.values.password}
-                secureTextEntry={true}
-                onBlur={props.handleBlur("password")}
-              />
-              <Text style={styles.errorText}>
-                {props.touched.username && props.errors.password}
-              </Text>
-              {/* @ts-ignore */}
-              <LoginButton onPress={props.handleSubmit} text="Log In" />
-            </View>
-          )}
-        </Formik>
-        <View style={{ paddingTop: 30 }}>
-          <TouchableOpacity onPress={handlePress}>
-            <Text style={{ color: "blue" }}>
-              Don't Have an Account? Register Now!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-  if (error === 404) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loginErrorText}>Please Register First</Text>
-        <Formik
-          initialValues={{ email: "", username: "", password: "" }}
-          validationSchema={LoginSchema}
-          onSubmit={(values, actions) => {
-            actions.resetForm({});
-            handleSubmit(values);
-          }}
-        >
-          {(props) => (
-            <View>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Username"
-                onChangeText={props.handleChange("username")}
-                // @ts-ignore
-                value={props.touched.username && props.values.username}
-                onBlur={props.handleBlur("username")}
-              />
-              <Text style={styles.errorText}>{props.errors.username}</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Password"
-                onChangeText={props.handleChange("password")}
-                value={props.values.password}
-                secureTextEntry={true}
-                onBlur={props.handleBlur("password")}
-              />
-              <Text style={styles.errorText}>
-                {props.touched.username && props.errors.password}
-              </Text>
-              {/* @ts-ignore */}
-              <LoginButton onPress={props.handleSubmit} text="Log In" />
-            </View>
-          )}
-        </Formik>
-        <View style={{ paddingTop: 30 }}>
-          <TouchableOpacity onPress={handlePress}>
-            <Text style={{ color: "blue" }}>
-              Don't Have an Account? Register Now!
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+  if (!fontsLoaded) {
+    return <AppLoading />;
   } else {
-    return (
-      <View style={styles.container}>
-        <Formik
-          initialValues={{ email: "", username: "", password: "" }}
-          validationSchema={LoginSchema}
-          onSubmit={(values, actions) => {
-            actions.resetForm({});
-            handleSubmit(values);
-          }}
-        >
-          {(props) => (
-            <View>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Username"
-                onChangeText={props.handleChange("username")}
-                // @ts-ignore
-                value={props.touched.username && props.values.username}
-                onBlur={props.handleBlur("username")}
-              />
-              <Text style={styles.errorText}>{props.errors.username}</Text>
-              <TextInput
-                style={styles.textInput}
-                placeholder="Enter Password"
-                onChangeText={props.handleChange("password")}
-                value={props.values.password}
-                secureTextEntry={true}
-                onBlur={props.handleBlur("password")}
-              />
-              <Text style={styles.errorText}>
-                {props.touched.username && props.errors.password}
+    if (error === 400) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.loginErrorText}>
+            Invalid username or password
+          </Text>
+          <Formik
+            initialValues={{ email: "", username: "", password: "" }}
+            validationSchema={LoginSchema}
+            onSubmit={(values, actions) => {
+              actions.resetForm({});
+              handleSubmit(values);
+            }}
+          >
+            {(props) => (
+              <View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter Username"
+                  onChangeText={props.handleChange("username")}
+                  // @ts-ignore
+                  value={props.touched.username && props.values.username}
+                  onBlur={props.handleBlur("username")}
+                />
+                <Text style={styles.errorText}>{props.errors.username}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter Password"
+                  onChangeText={props.handleChange("password")}
+                  value={props.values.password}
+                  secureTextEntry={true}
+                  onBlur={props.handleBlur("password")}
+                />
+                <Text style={styles.errorText}>
+                  {props.touched.username && props.errors.password}
+                </Text>
+                {/* @ts-ignore */}
+                <LoginButton onPress={props.handleSubmit} text="Log In" />
+              </View>
+            )}
+          </Formik>
+          <View style={{ paddingTop: 30 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Text style={{ color: "blue" }}>
+                Don't Have an Account? Register Now!
               </Text>
-              {/* @ts-ignore */}
-              <LoginButton onPress={props.handleSubmit} text="Log In" />
-            </View>
-          )}
-        </Formik>
-        <View style={{ paddingTop: 30 }}>
-          <TouchableOpacity onPress={handlePress}>
-            <Text style={{ color: "blue" }}>
-              Don't Have an Account? Register Now!
-            </Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
+    if (error === 404) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.loginErrorText}>Please Register First</Text>
+          <Formik
+            initialValues={{ email: "", username: "", password: "" }}
+            validationSchema={LoginSchema}
+            onSubmit={(values, actions) => {
+              actions.resetForm({});
+              handleSubmit(values);
+            }}
+          >
+            {(props) => (
+              <View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter Username"
+                  onChangeText={props.handleChange("username")}
+                  // @ts-ignore
+                  value={props.touched.username && props.values.username}
+                  onBlur={props.handleBlur("username")}
+                />
+                <Text style={styles.errorText}>{props.errors.username}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter Password"
+                  onChangeText={props.handleChange("password")}
+                  value={props.values.password}
+                  secureTextEntry={true}
+                  onBlur={props.handleBlur("password")}
+                />
+                <Text style={styles.errorText}>
+                  {props.touched.username && props.errors.password}
+                </Text>
+                {/* @ts-ignore */}
+                <LoginButton onPress={props.handleSubmit} text="Log In" />
+              </View>
+            )}
+          </Formik>
+          <View style={{ paddingTop: 30 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Text style={{ color: "blue" }}>
+                Don't Have an Account? Register Now!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Formik
+            initialValues={{ email: "", username: "", password: "" }}
+            validationSchema={LoginSchema}
+            onSubmit={(values, actions) => {
+              actions.resetForm({});
+              handleSubmit(values);
+            }}
+          >
+            {(props) => (
+              <View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter Username"
+                  onChangeText={props.handleChange("username")}
+                  // @ts-ignore
+                  value={props.touched.username && props.values.username}
+                  onBlur={props.handleBlur("username")}
+                />
+                <Text style={styles.errorText}>{props.errors.username}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Enter Password"
+                  onChangeText={props.handleChange("password")}
+                  value={props.values.password}
+                  secureTextEntry={true}
+                  onBlur={props.handleBlur("password")}
+                />
+                <Text style={styles.errorText}>
+                  {props.touched.username && props.errors.password}
+                </Text>
+                {/* @ts-ignore */}
+                <LoginButton onPress={props.handleSubmit} text="Log In" />
+              </View>
+            )}
+          </Formik>
+          <View style={{ paddingTop: 30 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Text style={{ color: "blue" }}>
+                Don't Have an Account? Register Now!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
   }
 };
 
@@ -238,10 +269,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 6,
     textAlign: "center",
+    fontFamily: "Oswald_700Bold",
   },
   loginErrorText: {
     color: "crimson",
     fontWeight: "bold",
+    fontFamily: "Oswald_700Bold",
   },
 });
 

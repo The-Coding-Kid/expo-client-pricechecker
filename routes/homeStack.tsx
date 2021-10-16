@@ -72,7 +72,7 @@ const Navigator = () => {
           component={Register}
         />
         <Stack.Screen
-          name="Home"
+          name="Main"
           options={{ headerShown: false }}
           component={MainTabNavigator}
         />
