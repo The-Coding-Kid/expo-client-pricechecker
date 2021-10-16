@@ -10,7 +10,7 @@ import {
 import { Formik } from "formik";
 var axios = require("axios");
 import * as yup from "yup";
-import LoginButton from "./LoginButton";
+import LoginButton from "../../components/LoginButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AppLoading from "expo-app-loading";
 import {

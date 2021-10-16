@@ -1,5 +1,5 @@
 import React from "react";
-import LoginButton from "../Login/LoginButton";
+import LoginButton from "../../components/LoginButton";
 import { View, Text, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 var axios = require("axios");

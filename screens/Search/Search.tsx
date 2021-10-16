@@ -10,7 +10,7 @@ import {
   Oswald_600SemiBold,
   Oswald_700Bold,
 } from "@expo-google-fonts/oswald";
-import SearchBar from "./SearchBar";
+import SearchBar from "../../components/SearchBar";
 
 const Home = () => {
   let [fontsLoaded] = useFonts({
