@@ -10,7 +10,7 @@ import {
   Oswald_700Bold,
 } from "@expo-google-fonts/oswald";
 
-const Home = () => {
+const Home: React.FC = () => {
   let [fontsLoaded] = useFonts({
     Oswald_300Light,
     Oswald_400Regular,

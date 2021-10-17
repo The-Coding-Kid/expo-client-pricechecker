@@ -11,7 +11,11 @@ import {
 import AppLoading from "expo-app-loading";
 import { Fontisto } from "@expo/vector-icons";
 
-const SearchBar = () => {
+interface Props {
+  onPress: () => void;
+}
+
+const SearchBar: React.FC<Props> = (props: Props) => {
   let [fontsLoaded] = useFonts({
     Oswald_300Light,
     Oswald_400Regular,
@@ -23,9 +27,9 @@ const SearchBar = () => {
     return <AppLoading />;
   } else {
     return (
-      <Pressable style={styles.searchButton}>
+      <Pressable style={styles.searchButton} onPress={props.onPress}>
         <View style={{ marginRight: 10 }}>
-          <Fontisto name="search" size={24} color="#f15454" />
+          <Fontisto name="search" size={24} color="#0096FF" />
         </View>
         <Text style={styles.text}>Search</Text>
       </Pressable>

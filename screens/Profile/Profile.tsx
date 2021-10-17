@@ -1,5 +1,5 @@
 import React from "react";
-import LoginButton from "../../components/LoginButton";
+import LoginButton from "../../components/Button";
 import { View, Text, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 var axios = require("axios");
@@ -13,7 +13,7 @@ import {
   Oswald_700Bold,
 } from "@expo-google-fonts/oswald";
 
-const Profile = (props: any) => {
+const Profile: React.FC = (props: any) => {
   let [fontsLoaded] = useFonts({
     Oswald_300Light,
     Oswald_400Regular,

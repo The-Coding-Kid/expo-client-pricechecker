@@ -12,7 +12,7 @@ import Search from "../screens/Search/Search";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MainTabNavigator = () => {
+const MainTabNavigator: React.FC = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -57,7 +57,7 @@ const MainTabNavigator = () => {
   );
 };
 
-const Navigator = () => {
+const Navigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
