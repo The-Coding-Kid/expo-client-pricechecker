@@ -122,6 +122,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
                   // @ts-ignore
                   value={props.touched.username && props.values.username}
                   onBlur={props.handleBlur("username")}
+                  autoCompleteType="username"
                 />
                 <Text style={styles.errorText}>{props.errors.username}</Text>
                 <TextInput
@@ -171,6 +172,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
                   // @ts-ignore
                   value={props.touched.username && props.values.username}
                   onBlur={props.handleBlur("username")}
+                  autoCompleteType="username"
                 />
                 <Text style={styles.errorText}>{props.errors.username}</Text>
                 <TextInput

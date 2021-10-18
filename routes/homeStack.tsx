@@ -8,9 +8,34 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screens/Home/Home";
 import { Ionicons } from "@expo/vector-icons";
 import Search from "../screens/Search/Search";
+import SearchScreen from "../screens/Search/SearchScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const SearchStack = createStackNavigator();
+
+const SearchStackScreen: React.FC = () => {
+  return (
+    <SearchStack.Navigator>
+      <SearchStack.Screen
+        name="Search"
+        component={Search}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <SearchStack.Group screenOptions={{ presentation: "modal" }}>
+        <SearchStack.Screen
+          name="Search Bar"
+          component={SearchScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </SearchStack.Group>
+    </SearchStack.Navigator>
+  );
+};
 
 const MainTabNavigator: React.FC = () => {
   return (
@@ -48,7 +73,7 @@ const MainTabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={SearchStackScreen}
         options={{
           headerShown: false,
         }}

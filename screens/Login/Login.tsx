@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import * as Font from "expo-font";
 var axios = require("axios");
@@ -20,6 +21,7 @@ import {
   Oswald_700Bold,
 } from "@expo-google-fonts/oswald";
 import LoginForm from "./LoginForm";
+import globalStyles from "../../styles/globalStyles";
 
 interface Props {
   navigation: any;
@@ -51,7 +53,13 @@ const Login: React.FC<Props> = (props) => {
   });
 
   if (!loaded) {
-    return <AppLoading />;
+    return (
+      <View style={globalStyles.centerContainer}>
+        <AppLoading />
+        <ActivityIndicator size="large" color="#0096FF" />
+        <Text>Loading...</Text>
+      </View>
+    );
   } else {
     return (
       <DismissKeyboard>

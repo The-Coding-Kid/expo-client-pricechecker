@@ -60,6 +60,7 @@ const RegisterForm: React.FC<any> = ({ navigation }) => {
               value={props.values.email}
               keyboardType="email-address"
               onBlur={props.handleBlur("email")}
+              autoCompleteType="email"
             />
             <Text style={styles.errorText}>
               {props.touched.email && props.errors.email}
@@ -71,6 +72,7 @@ const RegisterForm: React.FC<any> = ({ navigation }) => {
               // @ts-ignore
               value={props.touched.username && props.values.username}
               onBlur={props.handleBlur("username")}
+              autoCompleteType="username"
             />
             <Text style={styles.errorText}>{props.errors.username}</Text>
             <TextInput

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Callout } from "react-native-maps";
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -15,7 +15,11 @@ var axios = require("axios");
 import { FontAwesome } from "@expo/vector-icons";
 import * as Location from "expo-location";
 
-const Home: React.FC = () => {
+interface Props {
+  navigation: any;
+}
+
+const Home: React.FC<Props> = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
     Oswald_300Light,
     Oswald_400Regular,
@@ -25,16 +29,22 @@ const Home: React.FC = () => {
   });
 
   const [items, setItems] = useState<any>([]);
-  const [map, showMap] = useState(false);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [map, showMap] = useState<boolean>(false);
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
   const [locationLoaded, setLocationLoaded] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<object | string>({});
 
   useEffect(() => {
-    axios.get("http://192.168.86.162:5000/items/all").then(async (res: any) => {
-      setItems(res.data);
-    });
+    axios
+      .get("http://192.168.86.162:5000/items/all")
+      .then(async (res: any) => {
+        setItems(res.data);
+      })
+      .catch(async (err: any) => {
+        console.error(err);
+        showMap(false);
+      });
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -47,7 +57,6 @@ const Home: React.FC = () => {
         accuracy: Location.Accuracy.Lowest,
       });
       if (location1 !== 0) {
-        console.log(location1);
         setLatitude(location1.coords.latitude);
         setLongitude(location1.coords.longitude);
       } else {
@@ -58,7 +67,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if (latitude !== 0 && longitude !== 0) {
-      console.log(latitude, longitude);
       setLocationLoaded(true);
     }
   }, [latitude, longitude]);
@@ -78,7 +86,7 @@ const Home: React.FC = () => {
           .then(async (res: any) => {
             setItems(res.data);
           });
-      }, 100000);
+      }, 10000);
       return () => clearInterval(interval);
     }
   }, [map, locationLoaded]);
@@ -91,7 +99,7 @@ const Home: React.FC = () => {
         <View style={styles.container}>
           <SearchBar
             onPress={() => {
-              console.log("Pressed Search Bar");
+              navigation.navigate("Search Bar");
             }}
           />
           <MapView
@@ -108,6 +116,15 @@ const Home: React.FC = () => {
               ? items.map((item: any) => (
                   <Marker key={item._id} coordinate={item.coordinate}>
                     <FontAwesome name="map-marker" size={24} color="#0096FF" />
+                    <Callout
+                      style={{
+                        flex: -1,
+                        position: "absolute",
+                        width: 60,
+                      }}
+                    >
+                      <Text>{item.name}</Text>
+                    </Callout>
                   </Marker>
                 ))
               : console.log("No items")}
@@ -115,7 +132,13 @@ const Home: React.FC = () => {
         </View>
       );
     } else {
-      return <AppLoading />;
+      return (
+        <View style={styles.errorContainer}>
+          <AppLoading />
+          <ActivityIndicator size="large" color="#0096FF" />
+          <Text style={{ fontFamily: "Oswald_500Medium" }}>Loading...</Text>
+        </View>
+      );
     }
   }
 };
@@ -136,6 +159,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
