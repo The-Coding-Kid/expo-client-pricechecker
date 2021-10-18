@@ -47,39 +47,35 @@ const DismissKeyboard = (props: {
 const SearchScreen: React.FC<Props> = ({ navigation }) => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState<CategoryQuery[]>([]);
+  const [original, setOriginal] = useState<CategoryQuery[]>([]);
   useEffect(() => {
-    let result = axios.get('')
-  });
+    const getCategories = async () => {
+      let result = await axios.get("http://192.168.86.162:5000/category/all");
+      setOriginal(result.data);
+      setData(result.data.slice());
+    };
+    getCategories();
+  }, []);
+
   const updateQuery = (input: any) => {
-    console.log(input);
-    if (input === "") {
-      console.log("Empty Query");
-      setData(Categories);
-      setInterval(() => {}, 1000);
-      console.log(data);
-      console.log("Original Categories", Categories);
-      setQuery("");
-    } else {
-      setData(Categories);
-      setQuery(input);
-    }
+    setQuery(input);
+    setData(original.slice());
+    console.log(query);
   };
 
   interface CategoryQuery {
+    _id: any;
     id: number;
     name: string;
+    __v: any;
   }
 
   const filterCategories = (category: CategoryQuery) => {
     // 1.
     let search = query;
-    console.log(search);
-    setInterval(() => {}, 1000);
     //2.
     if (category.name.startsWith(search)) {
       return category.name;
-    } else if (query === "") {
-      setData(Categories);
     } else {
       data.splice(data.indexOf(category), 1);
       return null;
