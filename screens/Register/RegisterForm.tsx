@@ -28,7 +28,7 @@ const RegisterForm: React.FC<any> = ({ navigation }) => {
 
   const handleSubmit = (values: any) => {
     axios
-      .post("http://192.168.86.162:5000/register", {
+      .post("http://192.168.86.166:5000/register", {
         email: values.email,
         username: values.username,
         password: values.password,

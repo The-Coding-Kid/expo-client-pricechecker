@@ -78,7 +78,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
 
   const handleSubmit = (values: any): void => {
     axios
-      .post("http://192.168.86.162:5000/login", {
+      .post("http://192.168.86.166:5000/login", {
         username: values.username,
         password: values.password,
       })
