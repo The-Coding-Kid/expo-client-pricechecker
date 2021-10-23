@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+//@ts-ignore
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps';
 import AppLoading from 'expo-app-loading';
@@ -19,6 +21,7 @@ interface Props {
 	navigation: any;
 }
 
+//@ts-ignore
 const Home: React.FC<Props> = ({ navigation }) => {
 	let [fontsLoaded] = useFonts({
 		Oswald_300Light,
