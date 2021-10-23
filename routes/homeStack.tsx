@@ -41,7 +41,9 @@ const MainTabNavigator = () => {
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"
+			//@ts-ignore
 			screenOptions={({ route }) => ({
+				//@ts-ignore
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
 
@@ -83,6 +85,7 @@ const MainTabNavigator = () => {
 
 const Navigator = () => {
 	return (
+		//@ts-ignore
 		<NavigationContainer>
 			<Stack.Navigator>
 				<Stack.Screen name="Login" options={{ headerShown: false }} component={Login} />
