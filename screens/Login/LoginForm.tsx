@@ -105,7 +105,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
 							actions.resetForm({});
 							handleSubmit(values);
 						}}>
-						{(props) => (
+						{(props: any) => (
 							<View>
 								<TextInput
 									style={styles.textInput}
@@ -152,7 +152,14 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
 							actions.resetForm({});
 							handleSubmit(values);
 						}}>
-						{(props) => (
+						{(props: {
+							handleChange: (arg0: string) => any;
+							touched: { username: any };
+							values: { username: any; password: any };
+							handleBlur: (arg0: string) => any;
+							errors: { username: any; password: any };
+							handleSubmit: any;
+						}) => (
 							<View>
 								<TextInput
 									style={styles.textInput}
@@ -197,7 +204,14 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
 							actions.resetForm({});
 							handleSubmit(values);
 						}}>
-						{(props) => (
+						{(props: {
+							handleChange: (arg0: string) => any;
+							touched: { username: any };
+							values: { username: any; password: any };
+							handleBlur: (arg0: string) => any;
+							errors: { username: any; password: any };
+							handleSubmit: any;
+						}) => (
 							<View>
 								<TextInput
 									style={styles.textInput}
