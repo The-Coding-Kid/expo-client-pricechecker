@@ -144,7 +144,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
 		if (error === 404) {
 			return (
 				<View style={styles.container}>
-					<Text style={styles.loginErrorText}>Please Register First</Text>
+					<Text style={styles.loginErrorText}>Invalid Username or Password</Text>
 					<Formik
 						initialValues={{ email: '', username: '', password: '' }}
 						validationSchema={LoginSchema}
