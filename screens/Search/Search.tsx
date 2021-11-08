@@ -40,7 +40,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
 	useEffect(() => {
 		axios
-			.get('http://192.168.86.166:5000/items/all')
+			.get('http://192.168.86.193:5001/items/all')
 			.then(async (res: any) => {
 				setItems(res.data);
 			})
@@ -84,7 +84,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
 	useEffect(() => {
 		if (map == true && locationLoaded == true) {
 			const interval = setInterval(() => {
-				axios.get('http://192.168.86.166:5000/items/all').then(async (res: any) => {
+				axios.get('http://192.168.86.166:5001/items/all').then(async (res: any) => {
 					setItems(res.data);
 				});
 			}, 10000);

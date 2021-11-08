@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState, useEffect } from 'react';
 import {
 	View,
@@ -44,7 +45,7 @@ const SearchScreen: React.FC<Props> = ({ navigation }) => {
 	const [original, setOriginal] = useState<CategoryQuery[]>([]);
 	useEffect(() => {
 		const getCategories = async () => {
-			let result = await axios.get('http://192.168.86.166:5000/category/all');
+			let result = await axios.get('http://192.168.86.166:5001/category/all');
 			setOriginal(result.data);
 			setData(result.data.slice());
 		};
