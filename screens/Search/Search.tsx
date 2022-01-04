@@ -31,6 +31,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
 		Oswald_700Bold,
 	});
 
+
 	const [items, setItems] = useState<any>([]);
 	const [map, showMap] = useState<boolean>(false);
 	const [latitude, setLatitude] = useState<number>(0);
