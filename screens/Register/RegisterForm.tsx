@@ -22,13 +22,14 @@ const RegisterSchema = yup.object({
   password: yup.string().required().min(8),
 });
 
+//@ts-ignore
 const RegisterForm: React.FC<any> = ({ navigation }) => {
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState({});
 
   const handleSubmit = (values: any) => {
     axios
-      .post("http://192.168.86.193:5001/register", {
+      .post("http://192.168.86.20:5001/register", {
         email: values.email,
         username: values.username,
         password: values.password,
