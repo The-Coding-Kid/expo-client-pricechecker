@@ -57,6 +57,7 @@
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
+    "trunk": "^1.1.0",
     "typescript": "^4.4.3",
     "yup": "^0.32.10"
   },
