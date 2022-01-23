@@ -99,6 +99,7 @@ const LoginForm: React.FC<any> = ({ navigation }) => {
   };
 
   if (!fontsLoaded) {
+    //@ts-ignore
     return <AppLoading />;
   } else {
     if (error === 400) {
